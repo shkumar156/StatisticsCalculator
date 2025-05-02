@@ -9,8 +9,8 @@ const Header: React.FC = () => {
           <BarChart2 className="h-6 w-6 text-blue-600" />
           <h1 className="text-xl font-semibold text-gray-800">Statistics & Probability Calculator by Muhammad Umar FA21-BCS-126</h1>
         </div>
-        <div className="text-sm text-gray-600">
-          Calculate mean, median, mode & standard deviation
+        <div className="text-sm text-gray-600 hidden sm:block">
+          Data Analysis & Statistical Measures
         </div>
       </div>
     </header>

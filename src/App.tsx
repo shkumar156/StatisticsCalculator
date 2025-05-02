@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import DataInput from './components/DataInput';
-import Results from './components/Results';
-import { DataType } from './types/dataTypes';
 import Header from './components/Header';
+import DataEntryForm from './components/DataEntryForm';
+import StatisticalResults from './components/StatisticalResults';
+import { processDataInput } from './utils/dataProcessingUtils';
+import { ProcessedData } from './types/dataTypes';
 
 function App() {
-  const [dataType, setDataType] = useState<DataType>('ungrouped');
   const [showResults, setShowResults] = useState(false);
-  const [data, setData] = useState<number[]>([]);
-  const [groupedData, setGroupedData] = useState<Array<{lowerBound: number, upperBound: number, frequency: number}>>([]);
+  const [processedData, setProcessedData] = useState<ProcessedData | null>(null);
   
+  const handleDataSubmit = (rawData: string) => {
+    const processedData = processDataInput(rawData);
+    setProcessedData(processedData);
+    setShowResults(true);
+  };
+
   const handleReset = () => {
     setShowResults(false);
-    setData([]);
-    setGroupedData([]);
+    setProcessedData(null);
   };
 
   return (
@@ -22,22 +26,9 @@ function App() {
       
       <main className="flex-grow container mx-auto px-4 py-6 max-w-4xl">
         {!showResults ? (
-          <DataInput 
-            dataType={dataType}
-            setDataType={setDataType}
-            data={data}
-            setData={setData}
-            groupedData={groupedData}
-            setGroupedData={setGroupedData}
-            setShowResults={setShowResults}
-          />
+          <DataEntryForm onSubmit={handleDataSubmit} />
         ) : (
-          <Results 
-            dataType={dataType}
-            data={data}
-            groupedData={groupedData}
-            onReset={handleReset}
-          />
+          <StatisticalResults data={processedData!} onReset={handleReset} />
         )}
       </main>
       
